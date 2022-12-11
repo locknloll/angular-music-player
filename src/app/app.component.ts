@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { Music } from './music';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,4 +9,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-music-player';
+
+  musicList: Music[] = [];
+  displayedColumns: string[] = ['title', 'artist', 'album'];
 }

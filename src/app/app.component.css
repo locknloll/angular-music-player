@@ -1,0 +1,27 @@
+span.spacer {
+    flex: 1 1 auto;
+}
+
+div.music-list {
+    position: fixed;
+    height: calc(100% - 192px);
+    top: 64px;
+    overflow: auto;
+    width: 100%;
+}
+
+table.music-list {
+    width: 100%;
+}
+
+footer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 9;
+}
+
+.slider-full {
+    width: 100%;
+}
