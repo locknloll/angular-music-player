@@ -60,5 +60,19 @@ export class AppComponent {
       this.audio.play();
     } 
   }
+
+  prev(): void {
+    this.trackPointer--;
+    this.currentMusic = this.musicList[this.trackPointer];
+    this.audio.src = this.currentMusic.url;
+    this.audio.play();
+  }
+
+  next(): void {
+    this.trackPointer++;
+    this.currentMusic = this.musicList[this.trackPointer];
+    this.audio.src = this.currentMusic.url;
+    this.audio.play();
+  }
   
 }

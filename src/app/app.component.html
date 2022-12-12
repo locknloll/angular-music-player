@@ -3,7 +3,7 @@
     <mat-icon>music_note</mat-icon>
     Angular Music Player
     <span class="spacer"></span>
-    Now Playing: currently playing song title
+    Now Playing: {{ currentMusic.title }}
   </mat-toolbar>
 </header>
 <div class="music-list">
@@ -33,13 +33,13 @@
     <button mat-icon-button>
       <mat-icon>cloud_upload</mat-icon>
     </button>
-    <button mat-icon-button>
+    <button mat-icon-button (click)="prev()">
       <mat-icon>skip_previous</mat-icon>
     </button>
     <button mat-icon-button (click)="play()">
       <mat-icon>{{ audio.paused ? 'play_arrow' : 'pause' }}</mat-icon>
     </button>
-    <button mat-icon-button>
+    <button mat-icon-button (click)="next()">
       <mat-icon>skip_next</mat-icon>
     </button>
     <button mat-icon-button>
