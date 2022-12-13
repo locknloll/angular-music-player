@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { Music } from './music';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,32 @@ import { Music } from './music';
 export class AppComponent {
   title = 'angular-music-player';
   audio = new Audio();
+  musicLength: string = '0:00';
+  duration: number = 1;
+  currentTime: string = '0:00';
+
+  constructor() {
+    this.audio.ondurationchange = () => {
+      const totalSeconds = Math.floor(this.audio.duration),
+            duration = moment.duration(totalSeconds, 'seconds');
+      this.musicLength = duration.seconds() < 10 ? 
+                         `${Math.floor(duration.asMinutes())}:
+                          0${duration.seconds()}` : 
+                         `${Math.floor(duration.asMinutes())}:
+                          ${duration.seconds()}`;
+      this.duration = totalSeconds;
+    }
+
+    this.audio.ontimeupdate = () => {
+      const duration = moment.duration(
+        Math.floor(this.audio.currentTime), 'seconds');
+      this.currentTime = duration.seconds() < 10 ? 
+                         `${Math.floor(duration.asMinutes())}:
+                          0${duration.seconds()}` : 
+                         `${Math.floor(duration.asMinutes())}:
+                          ${duration.seconds()}`;
+    }
+  }
 
   musicList: Music[] = [
     { 
@@ -73,6 +100,14 @@ export class AppComponent {
     this.currentMusic = this.musicList[this.trackPointer];
     this.audio.src = this.currentMusic.url;
     this.audio.play();
+  }
+
+  volumeSlider(event: any) {
+    this.audio.volume = event.value / 16;
+  }
+
+  durationSlider(event: any) {
+    this.audio.currentTime = event.value;
   }
   
 }

@@ -46,17 +46,20 @@
       <mat-icon>volume_up</mat-icon>
     </button>
     <mat-slider
+      (input)="volumeSlider($event)"
       color="primary"
       value="16" step="1"
       min="0" max="16">
     </mat-slider>
   </mat-toolbar>
   <mat-toolbar>
-    0:00&nbsp;/&nbsp;0:00
+    {{ currentTime }}&nbsp;/&nbsp;{{ musicLength }}
     <mat-slider
+      (input)="durationSlider($event)"
       class="slider-full"
       color="primary"
-      min="0" max="1">
+      value="{{ audio.readyState === 0 ? 0 : audio.currentTime }}"
+      min="0" max="{{ duration }}">
     </mat-slider>
   </mat-toolbar>
 </footer>
