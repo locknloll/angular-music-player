@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "site": "angular-music-player-d8209",
+    "public": "dist/angular-music-player",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
