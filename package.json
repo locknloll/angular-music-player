@@ -8,6 +8,12 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false,
+    "react-native-fs": false
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^14.2.0",
@@ -15,6 +21,7 @@
     "@angular/common": "^14.2.0",
     "@angular/compiler": "^14.2.0",
     "@angular/core": "^14.2.0",
+    "@angular/fire": "^7.5.0",
     "@angular/forms": "^14.2.0",
     "@angular/material": "^13.0.0",
     "@angular/platform-browser": "^14.2.0",
@@ -22,6 +29,7 @@
     "@angular/router": "^14.2.0",
     "firebase": "^9.15.0",
     "firebase-tools": "^11.18.0",
+    "jsmediatags": "^3.9.7",
     "moment": "^2.29.4",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
@@ -32,6 +40,7 @@
     "@angular/cli": "~14.2.10",
     "@angular/compiler-cli": "^14.2.0",
     "@types/jasmine": "~4.0.0",
+    "@types/jsmediatags": "^3.9.3",
     "jasmine-core": "~4.3.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",

@@ -10,6 +10,14 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSliderModule } from '@angular/material/slider';
 
+import { environment } from '../environments/environment';
+
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFirestoreModule } 
+from '@angular/fire/compat/firestore';
+import { AngularFireStorageModule } 
+from '@angular/fire/compat/storage';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -21,7 +29,12 @@ import { MatSliderModule } from '@angular/material/slider';
     MatIconModule,
     MatTableModule,
     MatButtonModule,
-    MatSliderModule
+    MatSliderModule,
+    AngularFireModule.initializeApp(
+      environment.firebaseConfig
+    ),
+    AngularFirestoreModule,
+    AngularFireStorageModule
   ],
   providers: [],
   bootstrap: [AppComponent]

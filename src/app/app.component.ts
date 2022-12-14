@@ -3,6 +3,16 @@ import { Component } from '@angular/core';
 import { Music } from './music';
 import * as moment from 'moment';
 
+import { AngularFirestore } 
+from '@angular/fire/compat/firestore';
+import { AngularFireStorage } 
+from '@angular/fire/compat/storage';
+
+import { Observable } from 'rxjs';
+
+import * as jsmediatags from 'jsmediatags';
+import { TagType } from 'jsmediatags/types';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,7 +25,8 @@ export class AppComponent {
   duration: number = 1;
   currentTime: string = '0:00';
 
-  constructor() {
+  constructor(private store: AngularFirestore,
+              private storage: AngularFireStorage) {
     this.audio.ondurationchange = () => {
       const totalSeconds = Math.floor(this.audio.duration),
             duration = moment.duration(totalSeconds, 'seconds');
@@ -36,29 +47,14 @@ export class AppComponent {
                          `${Math.floor(duration.asMinutes())}:
                           ${duration.seconds()}`;
     }
+
+    this.getAllMusic().subscribe((musicList: Music[]) => {
+      this.musicList = musicList;
+    });
   }
 
-  musicList: Music[] = [
-    { 
-      album: "YouTube", 
-      title: "Bumbly March", 
-      artist: "Kevin MacLeod", 
-      url: "/assets/bumbly-march.mp3" 
-    },
-    { 
-      album: "YouTube", 
-      title: "Covert Affair", 
-      artist: "Kevin MacLeod", 
-      url: "/assets/covert-affair.mp3" 
-    },
-    { 
-      album: "YouTube", 
-      title: "Marty Gots a Plan", 
-      artist: "Kevin MacLeod", 
-      url: "/assets/marty-gots-a-plan.mp3" 
-    },
-    
-  ];
+  musicList: Music[] = [];
+  
   displayedColumns: string[] = ['title', 'artist', 'album'];
   trackPointer: number = 0;
   currentMusic: Music = {
@@ -108,6 +104,39 @@ export class AppComponent {
 
   durationSlider(event: any) {
     this.audio.currentTime = event.value;
+  }
+
+  getAllMusic(): Observable<Music[]> {
+    return this.store
+      .collection('music', 
+      ref => ref.orderBy('title'))
+      .valueChanges({ idField: 'id' }).pipe() as Observable<Music[]>;
+  }
+
+  uploadMusic(event: any): void {
+    for (var index = 0; index < event.target.files.length; index++) {
+      const file = event.target.files[index];
+      const filePath = `music/${file.name}`;
+      const fileRef = this.storage.ref(filePath);
+      this.storage.upload(filePath, file).then((uploadTaskSnapshot) => {
+        fileRef.getDownloadURL().subscribe((url: any) => {
+          jsmediatags.read(file, {
+            onSuccess: (tagType: TagType) => {
+              let music: Music = {
+                album: tagType.tags.album === undefined ? 
+                  '' : tagType.tags.album,
+                artist: tagType.tags.artist === undefined ? 
+                  '' : tagType.tags.artist,
+                title: tagType.tags.title === undefined ? 
+                  '' : tagType.tags.title,
+                url: url
+              };
+              this.store.collection('music').add(music);
+            }
+          })
+        })
+      })
+    }
   }
   
 }

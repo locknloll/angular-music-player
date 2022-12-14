@@ -29,8 +29,11 @@
 </div>
 <footer>
   <mat-toolbar>
-    <input type="file" #uploadFileInput multiple hidden accept=".mp3" />
-    <button mat-icon-button>
+    <input type="file" 
+      #uploadFileInput 
+      (change)="uploadMusic($event)" 
+      multiple hidden accept=".mp3" />
+    <button mat-icon-button (click)="uploadFileInput.click()">
       <mat-icon>cloud_upload</mat-icon>
     </button>
     <button mat-icon-button (click)="prev()">
